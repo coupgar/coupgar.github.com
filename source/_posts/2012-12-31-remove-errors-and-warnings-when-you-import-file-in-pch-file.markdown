@@ -25,3 +25,12 @@ categories: iPhone, Cocoa
     #imprort "MagicLibrary.h"
 #endif
 {% endcodeblock %}
+
+
+#Update 1:
+经测试，最简单的方法是把pch里面的import全部放在
+{% codeblock lang:objc %}
+#ifdef __OBJC__
+	//import files here
+#endif
+{% endcodeblock %}
