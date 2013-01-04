@@ -4,7 +4,7 @@
   <title><![CDATA[Whatsco.com]]></title>
   <link href="http://coupgar.github.com/atom.xml" rel="self"/>
   <link href="http://coupgar.github.com/"/>
-  <updated>2013-01-04T16:31:44+08:00</updated>
+  <updated>2013-01-04T16:34:37+08:00</updated>
   <id>http://coupgar.github.com/</id>
   <author>
     <name><![CDATA[coupgar]]></name>
@@ -118,7 +118,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h1>Update 1:</h1>
+<h3>Update 1:</h3>
 
 <p>经测试，最简单的方法是把pch里面的import全部放在</p>
 
