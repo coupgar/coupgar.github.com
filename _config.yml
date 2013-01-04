@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://coupgar.github.com
+title: Whatsco.com 
+subtitle: Coupgar's blog 
+author: coupgar
 simple_search: http://google.com/search
 description:
 
@@ -89,8 +89,8 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name:
-disqus_show_comment_count: false
+disqus_short_name: whatsco
+disqus_show_comment_count: 5
 
 # Google Analytics
 google_analytics_tracking_id:
