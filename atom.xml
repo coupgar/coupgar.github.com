@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Whatsco.com]]></title>
+  <link href="http://coupgar.github.com/atom.xml" rel="self"/>
+  <link href="http://coupgar.github.com/"/>
+  <updated>2013-01-04T16:04:35+08:00</updated>
+  <id>http://coupgar.github.com/</id>
+  <author>
+    <name><![CDATA[coupgar]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[book list on 360buy]]></title>
+    <link href="http://coupgar.github.com/blog/2012/12/31/book-list-on-360buy/"/>
+    <updated>2012-12-31T15:59:00+08:00</updated>
+    <id>http://coupgar.github.com/blog/2012/12/31/book-list-on-360buy</id>
+    <content type="html"><![CDATA[<p>电商的冬天快来了，趁着电商最后一波烧钱，入了些书。</p>
+
+<!-- more -->
+
+
+<ol>
+<li><a href="http://www.360buy.com/product/10036689.html">C++标准程序库：自修教程与参考手册</a></li>
+<li><a href="http://www.360buy.com/product/10060028.html">C++程序设计语言（特别版·十周年中文纪念版）</a> &#8211; from C++ 的爸爸</li>
+<li><a href="http://www.360buy.com/product/11094396.html">精品咖啡学（上）：浅焙、单品、庄园豆，第三波精品咖啡大百科</a></li>
+<li><a href="http://www.360buy.com/product/11094397.html">精品咖啡学（下）：杯测、风味轮、金杯准则，咖啡老餐的入门天书</a></li>
+<li><a href="http://www.360buy.com/product/11143931.html">知日·明治维新</a> &#8211; 德味儿</li>
+<li><a href="http://www.360buy.com/product/11048087.html">知日·猫</a> &#8211; 德味儿</li>
+<li><a href="http://www.360buy.com/product/11095008.html">知日·铁道</a> &#8211; 德味儿</li>
+</ol>
+
+
+<p>以上一共150.9， 购自360buy.com.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[how to dynamically setting uiwebview content width with javascript]]></title>
+    <link href="http://coupgar.github.com/blog/2012/12/31/how-to-dynamically-setting-uiwebview-content-width/"/>
+    <updated>2012-12-31T15:31:00+08:00</updated>
+    <id>http://coupgar.github.com/blog/2012/12/31/how-to-dynamically-setting-uiwebview-content-width</id>
+    <content type="html"><![CDATA[<p>在加载uiwebview时，uiwebview会根据网页中设定的width来layout内容，如果网页中的width设定不正确，就不能正确layout网页。例如渣浪微博的登录页面是设置的device width，iPhone上一般没有问题，但在ipad中的view就显示不正确。</p>
+
+<!-- more -->
+
+
+<p>解决这个问题很简单，只需要在uiwebview加载的html中修改width就OK了。按照这个思路，找到uiwebview的delegate回调：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="err">\</span><span class="o">*</span><span class="p">)</span><span class="nv">webView</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">NSString</span><span class="o">*</span> <span class="n">js</span> <span class="o">=</span><span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span>
+</span><span class='line'>                   <span class="s">@&quot;var meta = document.createElement(&#39;meta&#39;); &quot;</span> \
+</span><span class='line'>                   <span class="s">&quot;meta.setAttribute( &#39;name&#39;, &#39;viewport&#39; ); &quot;</span> \
+</span><span class='line'>                   <span class="s">&quot;meta.setAttribute( &#39;content&#39;, &#39;width = %f, initial-scale = 5.0, user-scalable = yes&#39; ); &quot;</span> \
+</span><span class='line'>                   <span class="s">&quot;document.getElementsByTagName(&#39;head&#39;)[0].appendChild(meta)&quot;</span><span class="p">,</span>
+</span><span class='line'>                   <span class="n">self</span><span class="p">.</span><span class="n">loginWebView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">//web view should looks great now.</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>  PS: JS和webview是可以互调的，详情可以参考这个<a href="https://github.com/marcuswestin/WebViewJavascriptBridge">库</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[remove errors and warnings when you import file in .pch file]]></title>
+    <link href="http://coupgar.github.com/blog/2012/12/31/remove-errors-and-warnings-when-you-import-file-in-pch-file/"/>
+    <updated>2012-12-31T15:02:00+08:00</updated>
+    <id>http://coupgar.github.com/blog/2012/12/31/remove-errors-and-warnings-when-you-import-file-in-pch-file</id>
+    <content type="html"><![CDATA[<p>在xcode中频繁使用的类库的头文件可以放入pch文件中，这样gcc会在预编译的过程中将头文件导入到每个.h 文件中。虽然import比include更加智能，但是似乎xcode中还是会遇到预编译错误提示，也一直困扰我很久。</p>
+
+<!-- more -->
+
+
+<p>现在只需要在pch文件中导入的每个头文件中定义一个宏，然后在pch文件中ifndef判断一下就ok</p>
+
+<p>例如在pch中有如下导入：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#imprort &quot;MagicLibrary.h&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在在MagicLibrary.h中添加如下def</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#define MAGIC_LIBRARY_DEF</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在pch中做如下修改：</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#ifndef MAGIC_LIBRARY_DEF</span>
+</span><span class='line'>    <span class="err">#</span><span class="n">imprort</span> <span class="s">&quot;MagicLibrary.h&quot;</span>
+</span><span class='line'><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cocoa, | Whatsco.com]]></title>
+  <link href="http://coupgar.github.com/blog/categories/cocoa-/atom.xml" rel="self"/>
+  <link href="http://coupgar.github.com/"/>
+  <updated>2013-01-04T16:04:35+08:00</updated>
+  <id>http://coupgar.github.com/</id>
+  <author>
+    <name><![CDATA[coupgar]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[how to dynamically setting uiwebview content width with javascript]]></title>
+    <link href="http://coupgar.github.com/blog/2012/12/31/how-to-dynamically-setting-uiwebview-content-width/"/>
+    <updated>2012-12-31T15:31:00+08:00</updated>
+    <id>http://coupgar.github.com/blog/2012/12/31/how-to-dynamically-setting-uiwebview-content-width</id>
+    <content type="html"><![CDATA[<p>在加载uiwebview时，uiwebview会根据网页中设定的width来layout内容，如果网页中的width设定不正确，就不能正确layout网页。例如渣浪微博的登录页面是设置的device width，iPhone上一般没有问题，但在ipad中的view就显示不正确。</p>
+
+<!-- more -->
+
+
+<p>解决这个问题很简单，只需要在uiwebview加载的html中修改width就OK了。按照这个思路，找到uiwebview的delegate回调：
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span>
+</span><span class='line'><span class="p">{</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">NSString</span><span class="o">*</span> <span class="n">js</span> <span class="o">=</span><span class="p">[</span><span class="n">NSString</span> <span class="nl">stringWithFormat:</span>
+</span><span class='line'>               <span class="s">@&quot;var meta = document.createElement(&#39;meta&#39;); &quot;</span> \
+</span><span class='line'>               <span class="s">&quot;meta.setAttribute( &#39;name&#39;, &#39;viewport&#39; ); &quot;</span> \
+</span><span class='line'>               <span class="s">&quot;meta.setAttribute( &#39;content&#39;, &#39;width = %f, initial-scale = 5.0, user-scalable = yes&#39; ); &quot;</span> \
+</span><span class='line'>               <span class="s">&quot;document.getElementsByTagName(&#39;head&#39;)[0].appendChild(meta)&quot;</span><span class="p">,</span>
+</span><span class='line'>               <span class="n">self</span><span class="p">.</span><span class="n">loginWebView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">];</span>
+</span><span class='line'><span class="p">[</span><span class="n">webView</span> <span class="nl">stringByEvaluatingJavaScriptFromString:</span><span class="n">js</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//web view should looks great now.</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>  PS: JS和webview是可以互调的，详情可以参考这个<a href="https://github.com/marcuswestin/WebViewJavascriptBridge">库</a></p>
+]]></content>
+  </entry>
+  
+</feed>
