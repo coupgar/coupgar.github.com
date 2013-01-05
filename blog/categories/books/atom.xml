@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Books | Whatsco.com]]></title>
+  <link href="http://coupgar.github.com/blog/categories/books/atom.xml" rel="self"/>
+  <link href="http://coupgar.github.com/"/>
+  <updated>2013-01-04T23:37:11+08:00</updated>
+  <id>http://coupgar.github.com/</id>
+  <author>
+    <name><![CDATA[coupgar]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[book list on 360buy]]></title>
+    <link href="http://coupgar.github.com/blog/2012/12/31/book-list-on-360buy/"/>
+    <updated>2012-12-31T15:59:00+08:00</updated>
+    <id>http://coupgar.github.com/blog/2012/12/31/book-list-on-360buy</id>
+    <content type="html"><![CDATA[<p>电商的冬天快来了，趁着电商最后一波烧钱，入了些书。</p>
+
+<!-- more -->
+
+
+<ol>
+<li><a href="http://www.360buy.com/product/10036689.html">C++标准程序库：自修教程与参考手册</a></li>
+<li><a href="http://www.360buy.com/product/10060028.html">C++程序设计语言（特别版·十周年中文纪念版）</a> -- from C++ 的爸爸</li>
+<li><a href="http://www.360buy.com/product/11094396.html">精品咖啡学（上）：浅焙、单品、庄园豆，第三波精品咖啡大百科</a></li>
+<li><a href="http://www.360buy.com/product/11094397.html">精品咖啡学（下）：杯测、风味轮、金杯准则，咖啡老餐的入门天书</a></li>
+<li><a href="http://www.360buy.com/product/11143931.html">知日·明治维新</a> -- 德味儿</li>
+<li><a href="http://www.360buy.com/product/11048087.html">知日·猫</a> -- 德味儿</li>
+<li><a href="http://www.360buy.com/product/11095008.html">知日·铁道</a> -- 德味儿</li>
+</ol>
+
+
+<p>以上一共150.9， 购自360buy.com.</p>
+]]></content>
+  </entry>
+  
+</feed>
