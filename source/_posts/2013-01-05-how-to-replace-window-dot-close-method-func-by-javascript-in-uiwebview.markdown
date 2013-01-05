@@ -7,6 +7,7 @@ categories: javascript, UIWebView,iPhone,iOS,Cocoa
 ---
 
 iOS中的UIWebView不能响应window.close方法，如果碰到web页面中调用了这个方法，如何去截获这个方法呢？
+<!-- more -->
 
 首先想到的方法是修改按钮的方法，但是这个方法不具备普遍性，万一web页面升级，那么这个方法就失效了。
 
