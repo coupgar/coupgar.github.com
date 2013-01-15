@@ -12,6 +12,8 @@ This post is part of answer from [StatckOverflow](http://stackoverflow.com/quest
 
 **id** means "a reference to some random Objective-C object of unknown class"
 
+<!-- more -->
+
 There are additional semantic differences:
 
 * Under GC Only or GC Supported modes, the compiler will emit write barriers for references of type id, but not for type void *. When declaring structures, this can be a critical difference. Declaring iVars like void *_superPrivateDoNotTouch; will cause premature reaping of objects if _superPrivateDoNotTouch is actually an object. Don't do that.
@@ -36,4 +38,4 @@ Without a closure type feature in the language, this is the only way to carry al
 
 Fragile and error prone, but the only way.
 
-Blocks solve this -- Blocks are closures for C. They are available in Clang -- http://llvm.org/ and are pervasive in Snow Leopard (http://developer.apple.com/library/ios/documentation/Performance/Reference/GCD_libdispatch_Ref/GCD_libdispatch_Ref.pdf).
+Blocks solve this -- Blocks are closures for C. They are available in Clang -- http://llvm.org/ and are pervasive in [Snow Leopard](http://developer.apple.com/library/ios/documentation/Performance/Reference/GCD_libdispatch_Ref/GCD_libdispatch_Ref.pdf).
