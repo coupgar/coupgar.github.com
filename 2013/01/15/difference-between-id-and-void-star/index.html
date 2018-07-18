@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Difference between id and void * | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="This post is part of answer from StatckOverflow void * means “a reference to some random chunk o’ memory with untyped/unknown contents” id means “a reference to some random Objective-C object of unkno">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Difference between id and void *">
+<meta property="og:url" content="http://yoursite.com/2013/01/15/difference-between-id-and-void-star/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="This post is part of answer from StatckOverflow void * means “a reference to some random chunk o’ memory with untyped/unknown contents” id means “a reference to some random Objective-C object of unkno">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-18T09:39:08.856Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Difference between id and void *">
+<meta name="twitter:description" content="This post is part of answer from StatckOverflow void * means “a reference to some random chunk o’ memory with untyped/unknown contents” id means “a reference to some random Objective-C object of unkno">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-difference-between-id-and-void-star" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/01/15/difference-between-id-and-void-star/" class="article-date">
+  <time datetime="2013-01-15T07:35:00.000Z" itemprop="datePublished">2013-01-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Objective-C/">Objective-C</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Difference between id and void *
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is part of answer from <a href="http://stackoverflow.com/questions/1304176/objective-c-difference-between-id-and-void" target="_blank" rel="noopener">StatckOverflow</a></p>
+<p><strong>void *</strong> means “a reference to some random chunk o’ memory with untyped/unknown contents”</p>
+<p><strong>id</strong> means “a reference to some random Objective-C object of unknown class”</p>
+<a id="more"></a>
+<p>There are additional semantic differences:</p>
+<ul>
+<li><p>Under GC Only or GC Supported modes, the compiler will emit write barriers for references of type id, but not for type void <em>. When declaring structures, this can be a critical difference. Declaring iVars like void </em>_superPrivateDoNotTouch; will cause premature reaping of objects if _superPrivateDoNotTouch is actually an object. Don’t do that.</p>
+</li>
+<li><p>attempting to invoke a method on a reference of void * type will barf up a compiler warning.</p>
+</li>
+<li><p>attempting to invoke a method on an id type will only warn if the method being called has not been declared in any of the @interface declarations seen by the compiler.</p>
+</li>
+</ul>
+<p>Thus, one should never refer to an object as a void <em>. Similarly, one should avoid using an id typed variable to refer to an object. Use the most specific class typed reference you can. Even NSObject </em> is better than id because the compiler can, at the least, provide better validation of method invocations against that reference.</p>
+<p>The one common and valid use of void * is as an opaque data reference that is passed through some other API.</p>
+<p>Consider the sortedArrayUsingFunction: context: method of NSArray:</p>
+<pre><code>- (NSArray *)sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))comparator context:(void *)context;
+</code></pre><p>The sorting function would be declared as:</p>
+<pre><code>NSInteger mySortFunc(id left, id right, void *context) { ...; }
+</code></pre><p>In this case, the NSArray merely passes whatever you pass in as the context argument to the method through as the context argument. It is an opaque hunk of pointer sized data, as far as NSArray is concerned, and you are free to use it for whatever purpose you want.</p>
+<p>Without a closure type feature in the language, this is the only way to carry along a hunk of data with a function. Example; if you wanted mySortFunc() to conditionally sort as case sensitive or case insensitive, while also still being thread-safe, you would pass the is-case-sensitive indicator in the context, likely casting on the way in and way out.</p>
+<p>Fragile and error prone, but the only way.</p>
+<p>Blocks solve this – Blocks are closures for C. They are available in Clang – <a href="http://llvm.org/" target="_blank" rel="noopener">http://llvm.org/</a> and are pervasive in <a href="http://developer.apple.com/library/ios/documentation/Performance/Reference/GCD_libdispatch_Ref/GCD_libdispatch_Ref.pdf" target="_blank" rel="noopener">Snow Leopard</a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2013/01/15/difference-between-id-and-void-star/" data-id="cjjqxwcod00048dg1yygv7e7t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2013/01/05/how-to-replace-window-dot-close-method-by-javascript-in-uiwebview/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">how to replace window.close method by javascript in UIWebview</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Objective-C/">Objective-C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shopping-list-Books/">Shopping list, Books</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iPhone-Cocoa/">iPhone, Cocoa</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/iPhone-Cocoa-UIWebView-JavaScript-Objective-C/">iPhone, Cocoa, UIWebView, JavaScript, Objective-C</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/javascript-UIWebView-iPhone-iOS-Cocoa/">javascript, UIWebView,iPhone,iOS,Cocoa</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/01/">January 2013</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2013/01/15/difference-between-id-and-void-star/">Difference between id and void *</a>
+          </li>
+        
+          <li>
+            <a href="/2013/01/05/how-to-replace-window-dot-close-method-by-javascript-in-uiwebview/">how to replace window.close method by javascript in UIWebview</a>
+          </li>
+        
+          <li>
+            <a href="/2012/12/31/book-list-on-360buy/">book list on 360buy</a>
+          </li>
+        
+          <li>
+            <a href="/2012/12/31/how-to-dynamically-setting-uiwebview-content-width/">how to dynamically setting uiwebview content width with javascript</a>
+          </li>
+        
+          <li>
+            <a href="/2012/12/31/remove-errors-and-warnings-when-you-import-file-in-pch-file/">remove errors and warnings when you import file in .pch file</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
